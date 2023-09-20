@@ -6,11 +6,12 @@ const app = express()
 const expressConfigurator = require('./config/expressConfigurator.js')
 const handlebarsConfigurator = require('./config/handlebarsConfigurator.js')
 
+const homeController = require('./controllers/homeController.js')
+
 expressConfigurator(app)
 handlebarsConfigurator(app)
 
-app.get('/', (req,res) => {
-    res.render('index')
-})
+app.use(homeController)
+
 
 app.listen(SERVER_PORT, () => {console.log(`Server listening on port ${SERVER_PORT}.`)})
