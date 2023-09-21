@@ -6,13 +6,11 @@ const app = express()
 const expressConfigurator = require('./config/expressConfigurator.js')
 const handlebarsConfigurator = require('./config/handlebarsConfigurator.js')
 
-const homeController = require('./controllers/homeController.js')
-const cubesController = require('./controllers/cubesController.js')
+const router = require('./routes.js')
 
 expressConfigurator(app)
 handlebarsConfigurator(app)
 
-app.use(homeController)
-app.use('/cubes', cubesController)
+app.use(router)
 
 app.listen(SERVER_PORT, () => {console.log(`Server listening on port ${SERVER_PORT}.`)})
