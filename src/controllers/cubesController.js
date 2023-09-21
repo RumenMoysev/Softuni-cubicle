@@ -14,7 +14,7 @@ router.post('/create', (req, res) => {
     }
 
     if(data.imageUrl && data.name && data.difficultyLevel && data.description) {
-        addCube(data)
+        cubeManager.addCube(data)
 
         res.redirect('/')
     }
@@ -23,6 +23,7 @@ router.post('/create', (req, res) => {
 router.get('/:cubeId/details', (req, res) => {
     const cubeId = req.params.cubeId
     const foundCube = cubeManager.getCubeById(cubeId)
+    
     res.status(200).render('details', {foundCube})
 })
 

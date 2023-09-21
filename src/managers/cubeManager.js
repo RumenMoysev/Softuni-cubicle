@@ -26,6 +26,21 @@ const cubes = [
 
 exports.getCubes = () => cubes.slice()
 
+exports.getCubesByQuery = (search, from, to) => {
+    let foundCubes = cubes.slice()
+    if(search) {
+        foundCubes = foundCubes.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()))
+    }
+    if(from) {
+        foundCubes = foundCubes.filter(cube => cube.difficultyLevel >= Number(from))
+    }
+    if(to) {
+        foundCubes = foundCubes.filter(cube => cube.difficultyLevel <= Number(to)) 
+    }
+
+    return foundCubes
+}
+
 exports.addCube = (cube) => {
     cube.id = uniqId()
     cubes.push(cube)
