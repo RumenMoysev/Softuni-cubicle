@@ -30,3 +30,5 @@ exports.addCube = (cube) => {
     cube.id = uniqId()
     cubes.push(cube)
 }
+
+exports.getCubeById = (id) => cubes.find(x => x.id == id)

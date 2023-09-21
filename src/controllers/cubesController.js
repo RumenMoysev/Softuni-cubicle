@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {addCube} = require('../managers/cubeManager.js')
+const cubeManager = require('../managers/cubeManager.js')
 
 router.get('/create', (req, res) => {
     res.status(200).render('create')
@@ -18,6 +18,12 @@ router.post('/create', (req, res) => {
 
         res.redirect('/')
     }
+})
+
+router.get('/:cubeId/details', (req, res) => {
+    const cubeId = req.params.cubeId
+    const foundCube = cubeManager.getCubeById(cubeId)
+    res.status(200).render('details', {foundCube})
 })
 
 module.exports = router
