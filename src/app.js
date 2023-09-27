@@ -10,8 +10,9 @@ const router = require('./routes.js');
 
 const connectDb = require('./config/dbConfig.js')
 
-connectDb().then(() => console.log('Db connected.'))
-.catch((error) => console.log('Db connection failed', error))
+connectDb()
+    .then(() => console.log('Db connected.'))
+    .catch((error) => console.log('Db connection failed', error))
 
 expressConfigurator(app);
 handlebarsConfigurator(app);
