@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const cubeManager = require('../managers/cubeManager.js')
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     const query = req.query
     const searchName = query.search
     const from = query.from
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
         return res.status(200).render('home', {cubes, searchName, from, to})
     }
 
-    const cubes = cubeManager.getCubes()
+    const cubes = await cubeManager.getCubesLean()
     res.status(200).render('home', { cubes })
 })
 
