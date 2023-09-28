@@ -23,6 +23,7 @@ exports.getCubesByQueryLean = async (queryObj) => {
 }
 
 exports.addCube = (cube) => Cube.create(cube)
+exports.addAccessory = (cubeId, accessoryId) => Cube.findByIdAndUpdate(cubeId, {$push: {accessories: accessoryId}})
 
 exports.getCubeById = (id) => Cube.findById(id)
 exports.getCubeByIdLean = (id) => Cube.findById(id).lean()
