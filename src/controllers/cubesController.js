@@ -23,9 +23,12 @@ router.post('/create', async (req, res) => {
 
 router.get('/:cubeId/details', async (req, res) => {
     const cubeId = req.params.cubeId
-    const foundCube = await cubeManager.getCubeByIdLean(cubeId)
     
-    res.status(200).render('details', {foundCube})
+    let accessories = await cubeManager.getAccessories(cubeId)
+    accessories = accessories.accessories
+    const foundCube = await cubeManager.getCubeByIdLean(cubeId)
+
+    res.status(200).render('details', {foundCube, accessories})
 })
 
 router.get('/:cubeId/attach', async (req, res) => {
