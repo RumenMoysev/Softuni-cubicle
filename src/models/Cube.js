@@ -18,8 +18,8 @@ const cubeSchema = new mongoose.Schema({
         type: String,
     },
     accessories: {
-        required: true,
-        type: Array,
+        type: mongoose.Types.ObjectId,
+        // ref:
     },
 })
 
