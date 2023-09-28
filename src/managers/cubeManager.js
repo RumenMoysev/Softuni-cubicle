@@ -1,5 +1,4 @@
 const uniqId = require('uniqid')
-
 const Cube = require('../models/Cube.js')
 
 const cubes = [
@@ -29,16 +28,20 @@ const cubes = [
 exports.getCubes = () => Cube.find()
 exports.getCubesLean = () => Cube.find().lean()
 
-exports.getCubesByQuery = (search, from, to) => {
-    let foundCubes = cubes.slice()
-    if(search) {
-        foundCubes = foundCubes.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()))
+exports.getCubesByQueryLean = async (queryObj) => {
+    let startingLevel = 0
+    let maxLevel = 7
+    if(queryObj.from) {
+        startingLevel = Number(queryObj.from)
     }
-    if(from) {
-        foundCubes = foundCubes.filter(cube => cube.difficultyLevel >= Number(from))
+    if(queryObj.to) {
+        maxLevel = Number(queryObj.to)
     }
-    if(to) {
-        foundCubes = foundCubes.filter(cube => cube.difficultyLevel <= Number(to)) 
+
+    let foundCubes = await Cube.find({$and: [{difficultyLevel: {$gte: startingLevel}}, {difficultyLevel: {$lte: maxLevel}}]}).lean()
+
+    if(queryObj.searchName) {
+        foundCubes = foundCubes.filter((x) => x.name.toLowerCase().includes(queryObj.searchName.toLowerCase()))
     }
 
     return foundCubes

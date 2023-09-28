@@ -7,9 +7,21 @@ router.get('/', async (req, res) => {
     const from = query.from
     const to = query.to
 
+    const queryObj = {}
+
+    if(searchName) {
+        queryObj.searchName = searchName
+    }
+    if(from) {
+        queryObj.from = from
+    }
+    if(to) {
+        queryObj.to = to
+    }
+    
     if(searchName || from || to) {
-        const cubes = cubeManager.getCubesByQuery(searchName, from, to)
-        return res.status(200).render('home', {cubes, searchName, from, to})
+        const cubes = await cubeManager.getCubesByQueryLean(queryObj)
+        return res.status(200).render('home', {cubes, queryObj})
     }
 
     const cubes = await cubeManager.getCubesLean()
