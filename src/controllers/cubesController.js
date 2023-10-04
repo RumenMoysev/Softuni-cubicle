@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const cubeManager = require('../managers/cubeManager.js')
 const accessoryManager = require('../managers/accessoryManager.js')
+const {getOptionsViewData} = require('../utils/getOptionsViewData.js')
 
 router.get('/create', (req, res) => {
     console.log(req.user)
@@ -53,6 +54,31 @@ router.post('/:cubeId/attach', async (req, res) => {
 
     await cubeManager.addAccessory(cubeId, accessoryId)
     res.redirect(`/cubes/${cubeId}/details`)
+})
+
+router.get('/:cubeId/edit', async (req, res) => {
+    const cubeId = req.params.cubeId
+
+    const currentCube = await cubeManager.getCubeByIdLean(cubeId)
+    const optionsViewData = getOptionsViewData(currentCube.difficultyLevel)
+
+    console.log(optionsViewData)
+
+    res.render('cubeTemps/edit', {currentCube, optionsViewData})
+})
+
+router.post('/:cubeId/edit', async (req, res) => {
+    const cubeId = req.params.cubeId
+
+    const cubeData = {
+        imageUrl: req.body.imageUrl,
+        name: req.body.name,
+        difficultyLevel: req.body.difficultyLevel,
+        description: req.body.description
+    }
+
+    await cubeManager.updateCubeById(cubeId, cubeData)
+    res.redirect('/')
 })
 
 module.exports = router

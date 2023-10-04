@@ -28,3 +28,5 @@ exports.getAccessories = (cubeId) => Cube.findById(cubeId).populate('accessories
 
 exports.getCubeById = (id) => Cube.findById(id)
 exports.getCubeByIdLean = (id) => Cube.findById(id).lean()
+
+exports.updateCubeById = (id, data) => Cube.findByIdAndUpdate(id, data)
