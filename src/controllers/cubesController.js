@@ -3,7 +3,7 @@ const cubeManager = require('../managers/cubeManager.js')
 const accessoryManager = require('../managers/accessoryManager.js')
 
 router.get('/create', (req, res) => {
-    res.status(200).render('create')
+    res.status(200).render('cubeTemps/create')
 })
 
 router.post('/create', async (req, res) => {
@@ -28,7 +28,7 @@ router.get('/:cubeId/details', async (req, res) => {
     accessories = accessories.accessories
     const foundCube = await cubeManager.getCubeByIdLean(cubeId)
 
-    res.status(200).render('details', {foundCube, accessories})
+    res.status(200).render('cubeTemps/details', {foundCube, accessories})
 })
 
 router.get('/:cubeId/attach', async (req, res) => {
