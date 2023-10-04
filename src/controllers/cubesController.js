@@ -13,6 +13,7 @@ router.post('/create', async (req, res) => {
         name: req.body.name,
         difficultyLevel: req.body.difficultyLevel,
         description: req.body.description,
+        owner: req.user._id
     }
 
     if(data.imageUrl && data.name && data.difficultyLevel && data.description) {
