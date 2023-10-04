@@ -29,8 +29,11 @@ router.get('/:cubeId/details', async (req, res) => {
     let accessories = await cubeManager.getAccessories(cubeId)
     accessories = accessories.accessories
     const foundCube = await cubeManager.getCubeByIdLean(cubeId)
+    const userId = req.user._id
 
-    res.status(200).render('cubeTemps/details', {foundCube, accessories})
+    const isOwner = foundCube.owner == userId
+
+    res.status(200).render('cubeTemps/details', {foundCube, accessories, isOwner})
 })
 
 router.get('/:cubeId/attach', async (req, res) => {

@@ -5,10 +5,14 @@
   <p><span>Difficulty level:</span> {{foundCube.difficultyLevel}}</p>
   <a class="btn" href="/">Back</a>
   <a class="btn" href="/cubes/{{foundCube._id}}/attach">Attach an accessory</a>
+  {{#if isOwner}}
+  <a class="btn" href="/cubes/{{foundCube._id}}/edit">Edit</a>
+  <a class="btn" href="/cubes/{{foundCube._id}}/Delete">Delete</a>
+  {{/if}}
 </div>
 <h2>Accessories</h2>
 <div class="accessories">
-{{#each accessories}}
+  {{#each accessories}}
   <div class="accessory">
     <img src="{{imageUrl}}" alt="stickerName">
     <h3>{{name}}</h3>
@@ -16,5 +20,5 @@
   </div>
   {{else}}
   <h3 class="italic">This cube has no accessories yet...</h3>
-{{/each}}
+  {{/each}}
 </div>
