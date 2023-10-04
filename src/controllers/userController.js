@@ -25,4 +25,21 @@ router.get('/login', (req, res) => {
     res.render('userTemps/login')
 })
 
+router.post('/login', async (req, res) => {
+    const body = {
+        username: req.body.username,
+        password: req.body.password,
+    };
+    
+    try {
+        const userToken = await userManager.findValidateAndReturnUserToken(body)
+        
+        res.cookie('user', userToken, {httpOnly: true})
+
+        res.redirect('/')
+    } catch (error) {
+        res.redirect('/users/login')
+    }
+});
+
 module.exports = router
