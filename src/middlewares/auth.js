@@ -10,10 +10,11 @@ exports.auth = async (req, res, next) => {
             const user = await jwt.verify(token, SECRET)
 
             req.user = user
-
+            res.locals.isLoggedIn = true
             next()
         } catch (error) {
             res.clearCookie('auth')
+            res.locals.isLoggedIn = false
 
             res.redirect('/users/login')
         }
