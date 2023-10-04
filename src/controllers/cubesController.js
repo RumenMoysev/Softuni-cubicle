@@ -62,8 +62,6 @@ router.get('/:cubeId/edit', async (req, res) => {
     const currentCube = await cubeManager.getCubeByIdLean(cubeId)
     const optionsViewData = getOptionsViewData(currentCube.difficultyLevel)
 
-    console.log(optionsViewData)
-
     res.render('cubeTemps/edit', {currentCube, optionsViewData})
 })
 
