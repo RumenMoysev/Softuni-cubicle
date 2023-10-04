@@ -2,7 +2,7 @@ const User = require('../models/User.js')
 const bcrypt = require('bcrypt')
 const jwt = require('../lib/jwt.js')
 
-const SECRET = 'cagaraMAGARAtagaraBUM'
+const { SECRET } = require('../config/config.js')
 
 exports.validateAndCreate = async (userData) => {
     let mainUserData = {

@@ -30,11 +30,11 @@ router.post('/login', async (req, res) => {
         username: req.body.username,
         password: req.body.password,
     };
-    
+
     try {
         const userToken = await userManager.findValidateAndReturnUserToken(body)
         
-        res.cookie('user', userToken, {httpOnly: true})
+        res.cookie('auth', userToken, {httpOnly: true})
 
         res.redirect('/')
     } catch (error) {
