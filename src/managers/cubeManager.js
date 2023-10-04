@@ -30,3 +30,4 @@ exports.getCubeById = (id) => Cube.findById(id)
 exports.getCubeByIdLean = (id) => Cube.findById(id).lean()
 
 exports.updateCubeById = (id, data) => Cube.findByIdAndUpdate(id, data)
+exports.deleteCubeById = (id) => Cube.findByIdAndDelete(id)
