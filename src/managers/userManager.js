@@ -12,7 +12,7 @@ exports.validateAndCreate = async (userData) => {
 
     const repeatPassword = userData.repeatPassword
 
-    if(mainUserData.password === repeatPassword) {
+    if (mainUserData.password === repeatPassword) {
         mainUserData.password = await bcrypt.hash(mainUserData.password, 10)
 
         User.create(mainUserData)
@@ -22,18 +22,18 @@ exports.validateAndCreate = async (userData) => {
 }
 
 exports.findValidateAndReturnUserToken = async (userData) => {
-    const user = await User.findOne({username: userData.username}).lean()
+    const user = await User.findOne({ username: userData.username }).lean()
 
-    if(user) {
+    if (user) {
         const isValid = await bcrypt.compare(userData.password, user.password)
 
-        if(!isValid) {
+        if (!isValid) {
             throw new Error('Password or username do not match!')
-        } else {
-            const token = await jwt.sign(user, SECRET, { expiresIn: '2d' })
-
-            return token
         }
+        
+        const token = await jwt.sign(user, SECRET, { expiresIn: '2d' })
+
+        return token
     } else {
         throw new Error('Password or username do not match!')
     }
