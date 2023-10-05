@@ -2,8 +2,9 @@ const router = require('express').Router()
 const cubeManager = require('../managers/cubeManager.js')
 const accessoryManager = require('../managers/accessoryManager.js')
 const {getOptionsViewData} = require('../utils/getOptionsViewData.js')
+const {routeGuard} = require('../middlewares/routeGuard.js')
 
-router.get('/create', (req, res) => {
+router.get('/create', routeGuard, (req, res) => {
     console.log(req.user)
     res.status(200).render('cubeTemps/create')
 })
@@ -30,7 +31,7 @@ router.get('/:cubeId/details', async (req, res) => {
     let accessories = await cubeManager.getAccessories(cubeId)
     accessories = accessories.accessories
     const foundCube = await cubeManager.getCubeByIdLean(cubeId)
-    const userId = req.user._id
+    const userId = req.user?._id
 
     const isOwner = foundCube.owner == userId
 
@@ -56,11 +57,15 @@ router.post('/:cubeId/attach', async (req, res) => {
     res.redirect(`/cubes/${cubeId}/details`)
 })
 
-router.get('/:cubeId/edit', async (req, res) => {
+router.get('/:cubeId/edit', routeGuard, async (req, res) => {
     const cubeId = req.params.cubeId
 
     const currentCube = await cubeManager.getCubeByIdLean(cubeId)
     const optionsViewData = getOptionsViewData(currentCube.difficultyLevel)
+
+    if(req.user._id != currentCube.owner) {
+        return res.redirect(`/cubes/${cubeId}/details`)
+    }   
 
     res.render('cubeTemps/edit', {currentCube, optionsViewData})
 })
