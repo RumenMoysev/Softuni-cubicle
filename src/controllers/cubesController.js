@@ -5,11 +5,10 @@ const {getOptionsViewData} = require('../utils/getOptionsViewData.js')
 const {routeGuard} = require('../middlewares/routeGuard.js')
 
 router.get('/create', routeGuard, (req, res) => {
-    console.log(req.user)
     res.status(200).render('cubeTemps/create')
 })
 
-router.post('/create', async (req, res) => {
+router.post('/create', routeGuard, async (req, res) => {
     const data = {
         imageUrl: req.body.imageUrl,
         name: req.body.name,
@@ -38,7 +37,7 @@ router.get('/:cubeId/details', async (req, res) => {
     res.status(200).render('cubeTemps/details', {foundCube, accessories, isOwner})
 })
 
-router.get('/:cubeId/attach', async (req, res) => {
+router.get('/:cubeId/attach', routeGuard, async (req, res) => {
     const cubeId = req.params.cubeId
 
     const currentCube = await cubeManager.getCubeByIdLean(cubeId)
@@ -49,7 +48,7 @@ router.get('/:cubeId/attach', async (req, res) => {
     res.render('accessoryTemps/attach', {currentCube, availableAccessories, accessories})
 })
 
-router.post('/:cubeId/attach', async (req, res) => {
+router.post('/:cubeId/attach', routeGuard, async (req, res) => {
     const cubeId = req.params.cubeId
     const accessoryId = req.body.accessory
 
@@ -70,7 +69,7 @@ router.get('/:cubeId/edit', routeGuard, async (req, res) => {
     res.render('cubeTemps/edit', {currentCube, optionsViewData})
 })
 
-router.post('/:cubeId/edit', async (req, res) => {
+router.post('/:cubeId/edit', routeGuard, async (req, res) => {
     const cubeId = req.params.cubeId
 
     const cubeData = {
@@ -84,7 +83,7 @@ router.post('/:cubeId/edit', async (req, res) => {
     res.redirect('/')
 })
 
-router.get('/:cubeId/delete', async (req, res) => {
+router.get('/:cubeId/delete', routeGuard, async (req, res) => {
     const cubeId = req.params.cubeId
 
     const cube = await cubeManager.getCubeByIdLean(cubeId)
@@ -93,7 +92,7 @@ router.get('/:cubeId/delete', async (req, res) => {
     res.render('cubeTemps/delete', {cube, optionsViewData})
 })
 
-router.post('/:cubeId/delete', async (req, res) => {
+router.post('/:cubeId/delete', routeGuard, async (req, res) => {
     const cubeId = req.params.cubeId
 
     await cubeManager.deleteCubeById(cubeId)
