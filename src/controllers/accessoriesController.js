@@ -15,8 +15,16 @@ router.post('/add-accessory', async (req, res) => {
         description: body.description
     }
 
-    await accessoryManager.create(cubeData)
-    res.redirect('/')
+    if(cubeData) {
+        try {
+            await accessoryManager.validateAndCreate(cubeData)
+
+            res.redirect('/')
+        } catch (error) {
+            console.log(error.message)
+            res.redirect('/accessories/add-accessory')
+        }
+    }
 })
 
 module.exports = router

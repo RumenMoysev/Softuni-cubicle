@@ -26,15 +26,18 @@ exports.getCubesByQueryLean = async (queryObj) => {
 
 exports.validateAndAddCube = (cube) => {
 
-    if (!cube.name.length < 5 || !regex.test(cube.name)) {
+    if (cube.name.length < 5 || !regex.test(cube.name)) {
         throw new Error('Cube name should consist of English letters, digits and spaces, and more than 5 ch. long')
     }
-    if(!cube.description.length < 20 || !regex.test(cube.description)) {
+    if(cube.description.length < 20 || !regex.test(cube.description)) {
         throw new Error('Cube description should consist of English letters, digits and spaces, and more than 20 ch. long')
     }
     if(cube.imageUrl.startsWith('http://') || cube.imageUrl.startsWith('https://')) {
     } else {
         throw new Error('You need to provide a correct URL')
+    }
+    if(!cube.difficultyLevel) {
+        throw new Error('Please provide a difficultyLevel')
     }
 
     return Cube.create(cube)
