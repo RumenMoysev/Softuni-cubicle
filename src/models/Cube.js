@@ -8,6 +8,8 @@ const cubeSchema = new mongoose.Schema({
     name: {
         required: true,
         type: String,
+        minLength: 5,
+        validate: /^[a-zA-Z0-9\s]+$/
     },
     difficultyLevel: {
         required: true,
@@ -16,6 +18,8 @@ const cubeSchema = new mongoose.Schema({
     description: {
         required: true,
         type: String,
+        minLength: 20,
+        validate: /^[a-zA-Z0-9\s]+$/
     },
     accessories: [{
         type: mongoose.Types.ObjectId,

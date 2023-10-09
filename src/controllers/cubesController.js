@@ -18,9 +18,15 @@ router.post('/create', routeGuard, async (req, res) => {
     }
 
     if(data.imageUrl && data.name && data.difficultyLevel && data.description) {
-        await cubeManager.addCube(data)
+        try {
+            await cubeManager.validateAndAddCube(data)
 
-        res.redirect('/')
+            res.redirect('/')
+        } catch (error) {
+            console.log(error.message)
+            
+            res.redirect('/cubes/create')
+        }
     }
 })
 
