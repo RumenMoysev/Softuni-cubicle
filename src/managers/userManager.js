@@ -13,6 +13,9 @@ exports.validateAndCreate = async (userData) => {
 
     const repeatPassword = userData.repeatPassword
 
+    if(mainUserData.username.length < 5) {
+        throw new Error('Username should be at least 5 characters')
+    }
     if(mainUserData.password.length < 8) {
         throw new Error('Password should be at least 8 characters')
     }

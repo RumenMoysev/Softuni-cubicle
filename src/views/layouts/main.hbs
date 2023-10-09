@@ -25,6 +25,12 @@
                 {{/if}}
             </ul>
         </header>
+        {{#if errorMsg}}
+        <div id="notifications">
+            <p id="notification-message">{{errorMsg}}</p>
+        </div>
+        {{/if}}
+
         <main>{{{body}}}</main>
     </div>
     <footer>@Cubicle: Exercise for Express.js and Handlebars</footer>

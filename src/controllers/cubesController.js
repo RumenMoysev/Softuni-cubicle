@@ -23,10 +23,12 @@ router.post('/create', routeGuard, async (req, res) => {
 
             res.redirect('/')
         } catch (error) {
-            console.log(error.message)
+            const errorMsg = error.message
             
-            res.redirect('/cubes/create')
+            res.status(400).render('cubeTemps/create', {errorMsg})
         }
+    } else {
+        res.redirect('/cubes/create')
     }
 })
 
@@ -85,8 +87,20 @@ router.post('/:cubeId/edit', routeGuard, async (req, res) => {
         description: req.body.description
     }
 
-    await cubeManager.updateCubeById(cubeId, cubeData)
-    res.redirect('/')
+    if(cubeData) {
+        try {
+            await cubeManager.validateAndUpdateCubeById(cubeId, cubeData)
+
+            res.redirect('/')
+        } catch (error) {
+            const errorMsg = error.message
+            
+            const currentCube = await cubeManager.getCubeByIdLean(cubeId)
+            const optionsViewData = getOptionsViewData(cubeData.difficultyLevel)
+
+            res.status(400).render('cubeTemps/edit', {currentCube, optionsViewData, errorMsg})
+        }
+    }
 })
 
 router.get('/:cubeId/delete', routeGuard, async (req, res) => {

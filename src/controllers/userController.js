@@ -20,8 +20,8 @@ router.post('/register', async (req, res) => {
 
         res.redirect('/')
     } catch (error) {
-        console.log(error)
-        res.redirect('/users/register')
+        const errorMsg = error.message
+        res.status(400).render('userTemps/register', {errorMsg})
     }
 })
 

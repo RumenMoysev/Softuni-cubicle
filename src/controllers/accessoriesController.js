@@ -21,9 +21,11 @@ router.post('/add-accessory', async (req, res) => {
 
             res.redirect('/')
         } catch (error) {
-            console.log(error.message)
-            res.redirect('/accessories/add-accessory')
+            const errorMsg = error.message
+            res.status(400).render('accessoryTemps/create', {errorMsg})
         }
+    } else {
+        res.redirect('/accessories/add-accessory')
     }
 })
 
