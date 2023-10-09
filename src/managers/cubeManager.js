@@ -48,5 +48,24 @@ exports.getAccessories = (cubeId) => Cube.findById(cubeId).populate('accessories
 exports.getCubeById = (id) => Cube.findById(id)
 exports.getCubeByIdLean = (id) => Cube.findById(id).lean()
 
-exports.updateCubeById = (id, data) => Cube.findByIdAndUpdate(id, data)
+exports.validateAndUpdateCubeById = (id, data) => {
+    if(!id) {
+        throw new Error('Please provide a cubeId')
+    };
+    if(data.name.length < 5 || !regex.test(data.name)) {
+        throw new Error('Cube name should consist of English letters, digits and spaces, and more than 5 ch. long')
+    }
+    if (data.description.length < 20 || !regex.test(data.description)) {
+        throw new Error('Cube description should consist of English letters, digits and spaces, and more than 20 ch. long')
+    }
+    if (data.imageUrl.startsWith('http://') || data.imageUrl.startsWith('https://')) {
+    } else {
+        throw new Error('You need to provide a correct URL')
+    }
+    if (!data.difficultyLevel) {
+        throw new Error('Please provide a difficultyLevel')
+    }
+    
+    return Cube.findByIdAndUpdate(id, data)
+}
 exports.deleteCubeById = (id) => Cube.findByIdAndDelete(id)
