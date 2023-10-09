@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('../lib/jwt.js')
 
 const { SECRET } = require('../config/config.js')
+const regex = /^[a-zA-Z0-9]+$/
 
 exports.validateAndCreate = async (userData) => {
     let mainUserData = {
@@ -12,10 +13,17 @@ exports.validateAndCreate = async (userData) => {
 
     const repeatPassword = userData.repeatPassword
 
+    if(mainUserData.password.length < 8) {
+        throw new Error('Password should be at least 8 characters')
+    }
+    if(!regex.test(mainUserData.password)) {
+        throw new Error('Password should consist only of English letters and numbers')
+    }
+
     if (mainUserData.password === repeatPassword) {
         mainUserData.password = await bcrypt.hash(mainUserData.password, 10)
 
-        User.create(mainUserData)
+        return User.create(mainUserData)
     } else {
         throw new Error('Passwords do not match!')
     }
