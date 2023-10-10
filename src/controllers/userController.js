@@ -42,7 +42,8 @@ router.post('/login', async (req, res) => {
 
         res.redirect('/')
     } catch (error) {
-        res.redirect('/users/login')
+        const errorMsg = error.message
+        res.status(400).render('userTemps/login', { errorMsg })
     }
 });
 
